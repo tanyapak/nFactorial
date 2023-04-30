@@ -158,37 +158,6 @@ class MyGame(arcade.Window):
         self.camera_sprites = arcade.Camera(self.width, self.height)
         self.camera_gui = arcade.Camera(self.width, self.height)
 
-<<<<<<< HEAD
-        """
-        # Name of map file to load
-        map_name = "maps/map-cave.json"
-
-        # Layer specific options are defined based on Layer names in a dictionary
-        # Doing this will make the SpriteList for the platforms layer
-        # use spatial hashing for detection.
-        layer_options = {
-            "Platforms": {
-                "use_spatial_hash": True,
-            },
-        }
-
-        # Read in the tiled map
-        self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
-
-        # Calculate the right edge of the my_map in pixels
-        self.end_of_map = self.tile_map.width * GRID_PIXEL_SIZE
-
-        # Initialize Scene with our TileMap, this will automatically add all layers
-        # from the map as SpriteLists in the scene in the proper order.
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-
-        # Set the background color
-        if self.tile_map.background_color:
-            arcade.set_background_color(self.tile_map.background_color)
-        """
-
-=======
->>>>>>> eea5072 (Added more sounds)
         # Keep track of the score
         self.score = 0
 
@@ -496,8 +465,6 @@ class MyGame(arcade.Window):
             # Set some limits on how far we scroll
             if screen_center_x < 0:
                 screen_center_x = 0
-            # if screen_center_y < 0:
-            #     screen_center_y = 0
             
             # Add a condition to limit the camera's position based on the map width
             elif screen_center_x > self.end_of_map - self.camera_sprites.viewport_width:
