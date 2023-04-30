@@ -3,7 +3,7 @@ import os
 import pickle
 
 # --- Constants
-SCREEN_TITLE = "Platformer"
+SCREEN_TITLE = "FireKnight&WaterPriestess"
 
 SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 768 # NUMBER_OF_TILES x TILE_SCALING x 16
@@ -72,7 +72,7 @@ class MyGame(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
-                         SCREEN_TITLE, resizable=True)g
+                         SCREEN_TITLE, resizable=True)
 
         # Our TileMap Object
         self.tile_map = None
@@ -215,7 +215,7 @@ class MyGame(arcade.Window):
 
         if level == 1:
             music1 = arcade.sound.load_sound("sounds/music.wav")
-            arcade.Sound.play(music1, volume=0.2, loop=True)
+            arcade.Sound.play(music1, volume=0.5, loop=True)
             self.player_sprite_1.center_x = 360
             self.player_sprite_1.center_y = SCREEN_HEIGHT
 
@@ -376,7 +376,8 @@ class MyGame(arcade.Window):
             if self.physics_engine_1.can_jump():
                 self.player_sprite_1.change_y = PLAYER_JUMP_SPEED
                 self.player_sprite_1.update_state("jump")
-                arcade.play_sound(arcade.sound.load_sound(':resources:sounds/jump3.wav'))
+                arcade.play_sound(arcade.sound.load_sound('sounds/jump.wav'))
+                # arcade.play_sound(arcade.sound.load_sound('sounds/fire-attack.wav'))
         # Left Player 1
         if key == arcade.key.LEFT:
             self.left_key_down_1 = True
@@ -385,6 +386,7 @@ class MyGame(arcade.Window):
             if self.physics_engine_1.can_jump():  # Check if the player is not on the ground
                 if self.player_sprite_1.on_special_surface:
                     self.player_sprite_1.update_state("surf")
+                    arcade.play_sound(arcade.sound.load_sound('sounds/fire.wav'))
                 else:
                     self.player_sprite_1.update_state("walk")
         # Right Player 1
@@ -395,19 +397,21 @@ class MyGame(arcade.Window):
             if self.physics_engine_1.can_jump():  # Check if the player is not on the ground
                 if self.player_sprite_1.on_special_surface:
                     self.player_sprite_1.update_state("surf")
+                    arcade.play_sound(arcade.sound.load_sound('sounds/fire.wav'))
                 else:
                     self.player_sprite_1.update_state("walk")
         # Attack Player 1
         if key == arcade.key.RSHIFT and self.current_level == 2:
             self.player_sprite_1.update_state("attack")
             self.player_sprite_1.can_update_state = False  # Set to False when attack is initiated
+            arcade.play_sound(arcade.sound.load_sound('sounds/fire-attack.wav'))
         
         # Jump Player 2
         if key == arcade.key.W:
             if self.physics_engine_2.can_jump():
                 self.player_sprite_2.change_y = PLAYER_JUMP_SPEED
                 self.player_sprite_2.update_state("jump")
-                arcade.play_sound(arcade.sound.load_sound(':resources:sounds/jump3.wav'))
+                arcade.play_sound(arcade.sound.load_sound('sounds/jump.wav'))
         # Left Player 2
         if key == arcade.key.A:
             self.left_key_down_2 = True
@@ -416,6 +420,7 @@ class MyGame(arcade.Window):
             if self.physics_engine_2.can_jump():  # Check if the player is not on the ground
                 if self.player_sprite_2.on_special_surface:
                     self.player_sprite_2.update_state("surf")
+                    arcade.play_sound(arcade.sound.load_sound('sounds/water.wav'))
                 else:
                     self.player_sprite_2.update_state("walk")
         # Right Player 2
@@ -426,12 +431,14 @@ class MyGame(arcade.Window):
             if self.physics_engine_2.can_jump():  # Check if the player is not on the ground
                 if self.player_sprite_2.on_special_surface:
                     self.player_sprite_2.update_state("surf")
+                    arcade.play_sound(arcade.sound.load_sound('sounds/water.wav'))
                 else:
                     self.player_sprite_2.update_state("walk")
         # Attack Player 2
         if key == arcade.key.LSHIFT and self.current_level == 2:
             self.player_sprite_2.update_state("attack")
             self.player_sprite_2.can_update_state = False  # Set to False when attack is initiated
+            arcade.play_sound(arcade.sound.load_sound('sounds/water-attack.wav'))
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
@@ -586,6 +593,7 @@ class MyGame(arcade.Window):
                     self.player_sprite_1.hit_object = True
 
             if self.player_sprite_1.can_update_state and self.player_sprite_1.hit_object:
+                arcade.play_sound(arcade.sound.load_sound(':resources:sounds/hit1.wav'))
                 for wall in list(self.scene["Wall"]):
                     wall.remove_from_sprite_lists()
                 for layer_name in ["Plants", "Plants2", "Plants3"]:
@@ -601,6 +609,7 @@ class MyGame(arcade.Window):
                     self.player_sprite_2.hit_object = True
 
             if self.player_sprite_2.can_update_state and self.player_sprite_2.hit_object:
+                arcade.play_sound(arcade.sound.load_sound(':resources:sounds/hit2.wav'))
                 for wall in list(self.scene["Wall2"]):
                     wall.remove_from_sprite_lists()
                 for water in self.scene["Water"]:
@@ -621,7 +630,7 @@ class MyGame(arcade.Window):
             coin.remove_from_sprite_lists()
             # Add one to the score
             self.score += 1
-            arcade.play_sound(arcade.sound.load_sound(':resources:sounds/coin5.wav'))
+            arcade.play_sound(arcade.sound.load_sound('sounds/coin.wav'), volume=0.25)
 
         coin_hit_list_2 = arcade.check_for_collision_with_list(
             self.player_sprite_2, self.scene["Coins"]
@@ -630,7 +639,7 @@ class MyGame(arcade.Window):
         for coin in coin_hit_list_2:
             coin.remove_from_sprite_lists()
             self.score += 1
-            arcade.play_sound(arcade.sound.load_sound(':resources:sounds/coin5.wav'))
+            arcade.play_sound(arcade.sound.load_sound('sounds/coin.wav'), volume=0.25)
 
         # See if we characters reach the exit
         exit_hit_list_1 = arcade.check_for_collision_with_list(
