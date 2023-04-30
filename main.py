@@ -133,6 +133,11 @@ class MyGame(arcade.Window):
         self.load_message_timer = 0
         self.load_message_duration = 2.0  # 2 seconds
 
+        # Sounds
+        self.lever1_sound_played = False
+        self.lever2_sound_played = False
+        self.end_sound_played = False
+
     def load_textures(self, path):
         texture_dict = {"idle": [], "walk": [], "jump": [], "surf": [], "attack": []}
         for state in texture_dict.keys():
@@ -237,6 +242,8 @@ class MyGame(arcade.Window):
             arcade.set_background_color(self.tile_map.background_color)
 
         if level == 1:
+            music1 = arcade.sound.load_sound("sounds/music.wav")
+            arcade.Sound.play(music1, volume=0.2, loop=True)
             self.player_sprite_1.center_x = 360
             self.player_sprite_1.center_y = SCREEN_HEIGHT
 
@@ -569,6 +576,9 @@ class MyGame(arcade.Window):
                 self.player_sprite_1, self.scene["Fire Lever"]
             )
             if lever_hit_list_1:
+                if not self.lever1_sound_played:
+                    arcade.play_sound(arcade.sound.load_sound(':resources:sounds/hit5.wav'))
+                    self.lever1_sound_played = True
                 for unturned_lever in self.scene["Fire Lever"]:
                     unturned_lever.alpha = 0
                 for turned_lever in self.scene["Fire Lever Turned"]:
@@ -584,6 +594,9 @@ class MyGame(arcade.Window):
                 self.player_sprite_2, self.scene["Water Lever"]
             )
             if lever_hit_list_2:
+                if not self.lever2_sound_played:
+                    arcade.play_sound(arcade.sound.load_sound(':resources:sounds/hit5.wav'))
+                    self.lever2_sound_played = True
                 for unturned_lever in self.scene["Water Lever"]:
                     unturned_lever.alpha = 0
                 for turned_lever in self.scene["Water Lever Turned"]:
@@ -657,6 +670,12 @@ class MyGame(arcade.Window):
             self.player_sprite_2, self.scene["Exit"]
         )
         if exit_hit_list_1 and exit_hit_list_2:
+            if self.current_level == 1:
+                arcade.play_sound(arcade.sound.load_sound(':resources:sounds/upgrade5.wav'))
+            else:
+                if not self.end_sound_played:
+                    arcade.play_sound(arcade.sound.load_sound(':resources:sounds/upgrade5.wav'))
+                    self.end_sound_played = True
             if self.current_level == 2:
                 self.game_end = True
             else:
