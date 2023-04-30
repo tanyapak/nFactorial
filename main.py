@@ -72,7 +72,7 @@ class MyGame(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
-                         SCREEN_TITLE, resizable=True)
+                         SCREEN_TITLE, resizable=True)g
 
         # Our TileMap Object
         self.tile_map = None
@@ -158,6 +158,7 @@ class MyGame(arcade.Window):
         self.camera_sprites = arcade.Camera(self.width, self.height)
         self.camera_gui = arcade.Camera(self.width, self.height)
 
+<<<<<<< HEAD
         """
         # Name of map file to load
         map_name = "maps/map-cave.json"
@@ -186,6 +187,8 @@ class MyGame(arcade.Window):
             arcade.set_background_color(self.tile_map.background_color)
         """
 
+=======
+>>>>>>> eea5072 (Added more sounds)
         # Keep track of the score
         self.score = 0
 
